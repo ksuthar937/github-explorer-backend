@@ -7,7 +7,7 @@ const saveUser = async (req, res) => {
     if (existUser) {
       throw new Error("User already exist in database");
     }
-    const getGitUser = await userService.getUser(username);
+    const getGitUser = await userService.getUserFromAPI(username);
     const storeUser = await userService.storeUser(getGitUser);
     res.status(200).json({
       user: storeUser,
@@ -19,6 +19,23 @@ const saveUser = async (req, res) => {
   }
 };
 
+const searchUserByQuery = async (req, res) => {
+  try {
+    const searchData = req.query;
+    const user = await userService.getUserFromDB(searchData);
+    res.status(200).json({
+      succes: true,
+      length: user.length,
+      users: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   saveUser,
+  searchUserByQuery,
 };

@@ -10,7 +10,7 @@ const findUser = async (username) => {
   }
 };
 
-const getUser = async (username) => {
+const getUserFromAPI = async (username) => {
   try {
     const gitUser = await axios(`https://api.github.com/users/${username}`);
     const data = gitUser?.data;
@@ -67,4 +67,13 @@ const storeUser = async (getGitUser) => {
   }
 };
 
-module.exports = { getUser, storeUser, findUser };
+const getUserFromDB = async (searchData) => {
+  try {
+    const user = await User.find(searchData);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getUserFromAPI, storeUser, findUser, getUserFromDB };
