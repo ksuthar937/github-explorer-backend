@@ -1,0 +1,20 @@
+{
+  "name": "github-explorer-backend",
+  "version": "1.0.0",
+  "description": "Backend Development Assignment: GitHub Explorer",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Kailash",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "mongoose": "^8.2.3",
+    "nodemon": "^3.1.0"
+  }
+}
