@@ -12,7 +12,10 @@ const findUser = async (username) => {
 
 const getUserFromAPI = async (username) => {
   try {
-    const gitUser = await axios(`https://api.github.com/users/${username}`);
+    const gitUser = await axios(`https://api.github.com/users/${username}`, {
+      auth: "ksuthar937",
+      Password: "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",
+    });
     const data = gitUser?.data;
     return data;
   } catch (error) {
@@ -76,4 +79,49 @@ const getUserFromDB = async (searchData) => {
   }
 };
 
-module.exports = { getUserFromAPI, storeUser, findUser, getUserFromDB };
+const getMutualUsers = async (username, userId) => {
+  try {
+    const getFollowers = await axios.get(
+      `https://api.github.com/users/${username}/followers`,
+      {
+        auth: "ksuthar937",
+        Password: "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",
+      }
+    );
+
+    const getFollowing = await axios.get(
+      `https://api.github.com/users/${username}/following`,
+      {
+        auth: "ksuthar937",
+        Password: "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",
+      }
+    );
+
+    const followers = getFollowers.data.map((el) => el.login);
+    const following = getFollowing.data.map((el) => el.login);
+
+    const mutualUsers = followers.filter((user) => following.includes(user));
+
+    if (mutualUsers.length === 0) {
+      throw new Error("User don't have any mutuals");
+    }
+
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      { $set: { friends: mutualUsers } },
+      { new: true }
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  getUserFromAPI,
+  storeUser,
+  findUser,
+  getUserFromDB,
+  getMutualUsers,
+};

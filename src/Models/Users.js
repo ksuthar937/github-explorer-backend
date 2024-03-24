@@ -48,6 +48,9 @@ const userSchema = new mogoose.Schema({
   updated_at: {
     type: Date,
   },
+  friends: {
+    type: Array,
+  },
 });
 const User = mogoose.model("Users", userSchema);
 

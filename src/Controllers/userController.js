@@ -35,7 +35,32 @@ const searchUserByQuery = async (req, res) => {
   }
 };
 
+const mutualUsers = async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const existUser = await userService.findUser(username);
+    if (!existUser) {
+      throw new Error("User doesn't exist in database");
+    }
+
+    const userId = existUser._id.valueOf();
+
+    const mutuals = await userService.getMutualUsers(username, userId);
+
+    res.status(200).json({
+      succes: true,
+      mutuals,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   saveUser,
   searchUserByQuery,
+  mutualUsers,
 };
