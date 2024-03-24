@@ -59,8 +59,25 @@ const mutualUsers = async (req, res) => {
   }
 };
 
+const deletelUser = async (req, res) => {
+  try {
+    const username = req.params.username;
+    const existUser = await userService.findUser(username);
+    if (!existUser) {
+      throw new Error("User doesn't exist in database");
+    }
+    const user = await userService.deletelUser(username);
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   saveUser,
   searchUserByQuery,
   mutualUsers,
+  deletelUser,
 };

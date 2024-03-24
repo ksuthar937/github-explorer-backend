@@ -51,6 +51,10 @@ const userSchema = new mogoose.Schema({
   friends: {
     type: Array,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 const User = mogoose.model("Users", userSchema);
 

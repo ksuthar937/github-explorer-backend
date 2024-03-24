@@ -6,6 +6,7 @@ const {
   saveUser,
   searchUserByQuery,
   mutualUsers,
+  deletelUser,
 } = require("../Controllers/userController");
 
 router.get("/save-user/:username", saveUser);
@@ -13,5 +14,7 @@ router.get("/save-user/:username", saveUser);
 router.get("/search-users", searchUserByQuery);
 
 router.get("/find-mutual-followers/:username", mutualUsers);
+
+router.delete("/delete-user/:username", deletelUser);
 
 module.exports = router;
