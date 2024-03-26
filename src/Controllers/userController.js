@@ -99,7 +99,10 @@ const updateUser = async (req, res) => {
 
 const listUsers = async (req, res) => {
   try {
-    const users = await userService.listUsers();
+    const sortType = req.query.sortBy;
+    const sortOrder = req.query.order;
+
+    const users = await userService.listUsers(sortType, sortOrder);
 
     res.status(200).json({
       success: true,

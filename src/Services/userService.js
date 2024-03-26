@@ -133,10 +133,19 @@ const updateUser = async (username, updatedData) => {
   }
 };
 
-const listUsers = async () => {
+const listUsers = async (sortType, sortOrder) => {
   try {
     const users = await User.find({});
-    return users;
+    if (!users || users.length === 0) {
+      throw new Error("No users found");
+    }
+    return users.sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a[sortType] - b[sortType];
+      } else {
+        return b[sortType] - a[sortType];
+      }
+    });
   } catch (error) {
     throw error;
   }
