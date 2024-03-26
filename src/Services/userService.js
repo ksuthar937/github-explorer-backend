@@ -12,7 +12,10 @@ const findUser = async (username) => {
 
 const getUserFromAPI = async (username) => {
   try {
-    const gitUser = await axios(`https://api.github.com/users/${username}`);
+    const gitUser = await axios(`https://api.github.com/users/${username}`, {
+        auth: "ksuthar937",
+        Password: "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",
+});
     const data = gitUser?.data;
     return data;
   } catch (error) {
@@ -79,11 +82,19 @@ const getUserFromDB = async (searchData) => {
 const getMutualUsers = async (username, userId) => {
   try {
     const getFollowers = await axios.get(
-      `https://api.github.com/users/${username}/followers`
+      `https://api.github.com/users/${username}/followers`,
+      {
+        auth: "ksuthar937",
+        Password: "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",
+}
     );
 
     const getFollowing = await axios.get(
-      `https://api.github.com/users/${username}/following`
+      `https://api.github.com/users/${username}/following`,
+      {
+        auth: "ksuthar937",
+        Password: "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",
+}
     );
 
     const followers = getFollowers.data.map((el) => el.login);
