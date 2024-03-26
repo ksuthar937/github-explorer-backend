@@ -21,7 +21,7 @@ mongoose
     console.log(colors.bgRed("Database Connection Failed"));
   });
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(colors.bgYellow(`Server listening on PORT ${PORT}`));
