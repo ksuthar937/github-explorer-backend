@@ -24,7 +24,7 @@ const searchUserByQuery = async (req, res) => {
     const searchData = req.query;
     const user = await userService.getUserFromDB(searchData);
     res.status(200).json({
-      succes: true,
+      success: true,
       length: user.length,
       users: user,
     });
@@ -49,7 +49,7 @@ const mutualUsers = async (req, res) => {
     const mutuals = await userService.getMutualUsers(username, userId);
 
     res.status(200).json({
-      succes: true,
+      success: true,
       mutuals,
     });
   } catch (error) {
@@ -67,7 +67,45 @@ const deletelUser = async (req, res) => {
       throw new Error("User doesn't exist in database");
     }
     const user = await userService.deletelUser(username);
-    res.status(204).send();
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const username = req.params.username;
+    const existUser = await userService.findUser(username);
+
+    if (!existUser) {
+      throw new Error("User doesn't exist in database");
+    }
+    const updatedData = req.body;
+
+    const user = await userService.updateUser(username, updatedData);
+
+    res.status(202).json({
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const listUsers = async (req, res) => {
+  try {
+    const users = await userService.listUsers();
+
+    res.status(200).json({
+      success: true,
+      length: users.length,
+      users,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -80,4 +118,6 @@ module.exports = {
   searchUserByQuery,
   mutualUsers,
   deletelUser,
+  updateUser,
+  listUsers,
 };
